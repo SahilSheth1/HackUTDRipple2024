@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swipe_cards/swipe_cards.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,59 +11,119 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'House Swiper',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HouseSwipePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class HouseSwipePage extends StatefulWidget {
+  const HouseSwipePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HouseSwipePage> createState() => _HouseSwipePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _HouseSwipePageState extends State<HouseSwipePage> {
+  final List<Map<String, dynamic>> houses = [
+    {'name': 'House 1', 'image': 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'},
+    {'name': 'House 2', 'image': 'https://via.placeholder.com/300/2'},
+    {'name': 'House 3', 'image': 'https://via.placeholder.com/300/3'},
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  late MatchEngine _matchEngine;
+  List<SwipeItem> _swipeItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initializeSwipeItems();
+  }
+
+  void initializeSwipeItems() {
+    _swipeItems = [];
+    for (var house in houses) {
+      _swipeItems.add(SwipeItem(
+        content: house,
+        likeAction: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Liked ${house['name']}"),
+              duration: const Duration(milliseconds: 500),
+            ),
+          );
+        },
+        nopeAction: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Disliked ${house['name']}"),
+              duration: const Duration(milliseconds: 500),
+            ),
+          );
+        },
+      ));
+    }
+    _matchEngine = MatchEngine(swipeItems: _swipeItems);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text('House Swiper'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              initializeSwipeItems();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Restarted the swipe order")),
+              );
+            },
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: _swipeItems.isEmpty
+          ? const Center(
+              child: Text("No more houses! Press reset to start over."),
+            )
+          : SwipeCards(
+              matchEngine: _matchEngine,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.network(
+                        houses[index]['image'],
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        houses[index]['name'],
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              onStackFinished: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("No more houses!")),
+                );
+              },
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
 }
