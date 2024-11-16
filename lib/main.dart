@@ -1,5 +1,9 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/swipe_cards.dart';
+import 'house.dart';
+import 'house_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,10 +32,34 @@ class HouseSwipePage extends StatefulWidget {
 }
 
 class _HouseSwipePageState extends State<HouseSwipePage> {
-  final List<Map<String, dynamic>> houses = [
-    {'name': 'House 1', 'image': 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'},
-    {'name': 'House 2', 'image': 'https://via.placeholder.com/300/2'},
-    {'name': 'House 3', 'image': 'https://via.placeholder.com/300/3'},
+  final List<House> houses = [
+    House(
+      name: 'Cozy Cottage',
+      imageUrl:
+          'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+      address: '123 Maple Street',
+      energyEfficiency: 'A',
+      cost: 250000.00,
+      boomRating: 4,
+    ),
+    House(
+      name: 'Modern Villa',
+      imageUrl:
+          'https://images.pexels.com/photos/1643389/pexels-photo-1643389.jpeg?auto=compress&cs=tinysrgb&w=600',
+      address: '456 Oak Avenue',
+      energyEfficiency: 'B',
+      cost: 750000.00,
+      boomRating: 5,
+    ),
+    House(
+      name: 'Urban Apartment',
+      imageUrl:
+          'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=600',
+      address: '789 Pine Road',
+      energyEfficiency: 'C',
+      cost: 300000.00,
+      boomRating: 3,
+    ),
   ];
 
   late MatchEngine _matchEngine;
@@ -51,7 +79,7 @@ class _HouseSwipePageState extends State<HouseSwipePage> {
         likeAction: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Liked ${house['name']}"),
+              content: Text("Liked ${house.name}"),
               duration: const Duration(milliseconds: 500),
             ),
           );
@@ -59,7 +87,7 @@ class _HouseSwipePageState extends State<HouseSwipePage> {
         nopeAction: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Disliked ${house['name']}"),
+              content: Text("Disliked ${house.name}"),
               duration: const Duration(milliseconds: 500),
             ),
           );
@@ -94,29 +122,7 @@ class _HouseSwipePageState extends State<HouseSwipePage> {
           : SwipeCards(
               matchEngine: _matchEngine,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  elevation: 4,
-                  margin: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.network(
-                        houses[index]['image'],
-                        height: 200,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        houses[index]['name'],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return HouseCard(house: houses[index]);
               },
               onStackFinished: () {
                 ScaffoldMessenger.of(context).showSnackBar(
