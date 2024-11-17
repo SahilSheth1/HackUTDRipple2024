@@ -9,87 +9,176 @@ class BuildingDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine dialog width based on screen size
-    final double dialogWidth = MediaQuery.of(context).size.width * 0.8;
-    final double imageHeight = 100; // Reduced height
-    SizedBox(
-      height: imageHeight,
-      width: dialogWidth - 32, // Adjust for padding/margin if necessary
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Image.asset(
-          building.imagePath,
-          width: dialogWidth - 32,
-          height: imageHeight,
-          fit: BoxFit
-              .cover, // You can change this to BoxFit.fill, BoxFit.contain, etc.
-        ),
-      ),
-    );
-
-    return AlertDialog(
-      title: Text(building.name),
-      content: ConstrainedBox(
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      child: Container(
         constraints: BoxConstraints(
-          maxHeight:
-              MediaQuery.of(context).size.height * 0.7, // 70% of screen height
-          maxWidth: dialogWidth,
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+          maxWidth: 800,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // SizedBox to force image size
-              SizedBox(
-                height: imageHeight,
-                width:
-                    dialogWidth - 32, // Adjust for padding/margin if necessary
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   child: Image.asset(
                     building.imagePath,
+                    height: 300,
+                    width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            building.name,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF003F2D),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF003F2D),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            building.price,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: const Color(0xFF003F2D).withOpacity(0.7),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            building.address,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: const Color(0xFF003F2D).withOpacity(0.7),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Energy Efficiency Rating',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF003F2D),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: List.generate(
+                        5,
+                        (index) => Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: Icon(
+                            index < building.rating
+                                ? Icons.whatshot
+                                : Icons.whatshot_outlined,
+                            color: Colors.red,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Description',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF003F2D),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      building.description,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: const Color(0xFF003F2D).withOpacity(0.9),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Energy Efficiency Improvement',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF003F2D),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.eco,
+                          color: Color(0xFF003F2D),
+                          size: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            building.energyEfficiencyTip,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: const Color(0xFF003F2D).withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                "Address: ${building.address}",
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Description: ${building.description}",
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Price: ${building.price}",
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: List.generate(5, (index) {
-                  return Icon(
-                    index < building.rating
-                        ? Icons.whatshot
-                        : Icons.whatshot_outlined,
-                    color: Colors.red,
-                  );
-                }),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-      actions: [
-        ElevatedButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text("Close"),
-        ),
-      ],
     );
   }
 }

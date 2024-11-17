@@ -1,4 +1,3 @@
-// api_service.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'building.dart';
@@ -7,30 +6,47 @@ class ApiService {
   static List<dynamic> likedBuildingsData = [];
 
   static Future<List<dynamic>> fetchApiData(List<Building> likedBuildings) async {
-    // Simulate an API call using liked buildings data
-    // For demonstration, we're using a placeholder API
+    const String url = "https://api.sambanova.ai/v1/chat/completions";
+    const String bearerToken = "e6ad01d4-aeb0-48b9-9f4e-a0db34790bb6";
+
     try {
-      final response = await http.get(
-          Uri.parse('https://jsonplaceholder.typicode.com/posts?_limit=5'));
+      // Define the request payload
+      Map<String, dynamic> payload = {
+        "stream": true,
+        "model": "Meta-Llama-3.1-8B-Instruct",
+        "messages": [
+          {
+            "role": "system",
+            "content":
+                "You are a helpful assistant who rates buildings on their energy efficiency. You will look at the building and rate it on a scale 1-5 with 5 being the most efficient. You will also give a very concise sentence explaining why you gave this rating and how to improve the efficiency. Your response will only have 1 number which is the rating and only one sentence (maximum 30 words)."
+          },
+          {"role": "user", "content": "Trump Tower"}
+        ],
+      };
+
+      // Make a POST request
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": "Bearer $bearerToken",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(payload),
+      );
 
       if (response.statusCode == 200) {
-        likedBuildingsData = json.decode(response.body);
-
-        // Store the liked buildings in the array
-        for (var building in likedBuildings) {
-          likedBuildingsData.add({
-            'title': building.name,
-            'body': building.description,
-          });
-        }
-
-        return likedBuildingsData;
+        // Parse and handle the response
+        final responseData = jsonDecode(response.body);
+        print("Response: $responseData");
+        return responseData;
       } else {
-        // Handle error
+        // Handle non-200 status codes
+        print("Error: ${response.statusCode}");
+        print("Response: ${response.body}");
         return [];
       }
     } catch (e) {
-      // Handle exception
+      print("An error occurred: $e");
       return [];
     }
   }

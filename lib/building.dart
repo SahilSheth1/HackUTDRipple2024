@@ -1,4 +1,3 @@
-// building.dart
 class Building {
   final String name;
   final String imagePath;
@@ -6,6 +5,8 @@ class Building {
   final String description;
   final String price;
   final int rating;
+  final String boomDescription;
+  final String energyEfficiencyTip;
 
   Building({
     required this.name,
@@ -14,5 +15,7 @@ class Building {
     required this.description,
     required this.price,
     required this.rating,
+    required this.boomDescription,
+    required this.energyEfficiencyTip,
   });
 }
