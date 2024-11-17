@@ -5,7 +5,6 @@ class Building {
   final String description;
   final String price;
   final int rating;
-  final String boomDescription;
   final String energyEfficiencyTip;
 
   Building({
@@ -15,7 +14,6 @@ class Building {
     required this.description,
     required this.price,
     required this.rating,
-    required this.boomDescription,
     required this.energyEfficiencyTip,
   });
 }

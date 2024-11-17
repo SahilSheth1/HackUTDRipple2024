@@ -18,6 +18,7 @@ dependencies:
   http: ^1.2.2
   mime: ^1.0.0
   http_parser: ^4.0.2
+  google_fonts: ^6.1.0
 
   # Add other dependencies as needed
 
@@ -29,12 +30,12 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/bosco_verticale.jpg
-    - assets/bullitt.jpg
     - assets/bryant_park.jpg
     - assets/ceasars_palace.jpg
     - assets/edge.jpg
     - assets/empire_state.jpg
-    - assets/shard.jpg
+    - assets/oneWorld.jpg
+    - assets/spaceNeedle.jpg
     - assets/trump_tower.jpg
+    - assets/willis.jpg
     # Add all other asset images here
