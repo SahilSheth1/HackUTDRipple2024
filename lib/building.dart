@@ -1,19 +1,18 @@
-// lib/building.dart
-
+// building.dart
 class Building {
-   String name;
-   String imageUrl;
-   String address;
-   String description;
-   String cost;
-   int boomRating;
+  final String name;
+  final String imagePath;
+  final String address;
+  final String description;
+  final String price;
+  final int rating;
 
-  Building(
-    this.name,
-    this.imageUrl,
-    this.address,
-    this.description,
-    this.cost,
-    this.boomRating,
-  );
+  Building({
+    required this.name,
+    required this.imagePath,
+    required this.address,
+    required this.description,
+    required this.price,
+    required this.rating,
+  });
 }
