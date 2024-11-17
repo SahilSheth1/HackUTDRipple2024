@@ -82,22 +82,6 @@ class _HouseSwipePageState extends State<HouseSwipePage> {
       4,
     ),
     Building(
-      'Pentagon',
-      'assets/pentagon.jpg',
-      '1400 Defense Pentagon, Washington, DC 20301, USA',
-      'The headquarters of the United States Department of Defense, recognized for its unique five-sided shape. It’s one of the world’s largest office buildings by floor area',
-      '\$1.2 Billion',
-      4,
-    ),
-    Building(
-      'Powerhouse',
-      'assets/powerhouse.jpg',
-      'Brattørkaia 17A, 7010 Trondheim, Norway',
-      'A highly energy-efficient office building designed to produce more energy than it consumes. It utilizes solar panels, smart design, and sustainable materials',
-      '\$55 Million',
-      4,
-    ),
-    Building(
       'Shard',
       'assets/shard.jpg',
       '32 London Bridge St, London SE1 9SG, UK',
