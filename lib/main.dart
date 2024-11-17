@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-import 'house.dart';
-import 'house_card.dart';
+import 'building.dart';
+import 'building_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'House Swiper',
+      title: 'Building Swiper',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,33 +32,86 @@ class HouseSwipePage extends StatefulWidget {
 }
 
 class _HouseSwipePageState extends State<HouseSwipePage> {
-  final List<House> houses = [
-    House(
-      name: 'Cozy Cottage',
-      imageUrl:
-          'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      address: '123 Maple Street',
-      energyEfficiency: 'A',
-      cost: 250000.00,
-      boomRating: 4,
+  final List<Building> houses = [
+    Building(
+      'Bosco Verticale',
+      'assets/bosco_verticale.jpg',
+      'Via Gaetano de Castillia, 11, 20124 Milan, Italy',
+      'A pair of residential towers covered with thousands of trees and plants. The “Vertical Forest” concept helps improve air quality and provides a green urban oasis',
+      '\$85 Million',
+      4,
     ),
-    House(
-      name: 'Modern Villa',
-      imageUrl:
-          'https://images.pexels.com/photos/1643389/pexels-photo-1643389.jpeg?auto=compress&cs=tinysrgb&w=600',
-      address: '456 Oak Avenue',
-      energyEfficiency: 'B',
-      cost: 750000.00,
-      boomRating: 5,
+    Building(
+      'Bullitt',
+      'assets/bullitt.jpg',
+      '41 W 40th St, New York, NY 10018, USA',
+      'A famous public park in Manhattan surrounded by high-rise buildings. It’s known for its open spaces, gardens, and year-round events, like winter ice skating',
+      'N/A',
+      4,
     ),
-    House(
-      name: 'Urban Apartment',
-      imageUrl:
-          'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=600',
-      address: '789 Pine Road',
-      energyEfficiency: 'C',
-      cost: 300000.00,
-      boomRating: 3,
+    Building(
+      'Bryant Park',
+      'assets/bryant_park.jpg',
+      '1501 E Madison St, Seattle, WA 98122, USA',
+      'One of the greenest commercial buildings in the world, designed to be fully sustainable with solar panels, rainwater collection, and composting toilets. It aims for a zero-carbon footprint',
+      '\$32.5 Million',
+      4,
+    ),
+    Building(
+      'Ceasars Palace',
+      'assets/ceasars_palace.jpg',
+      '3570 S Las Vegas Blvd, Las Vegas, NV 89109, USA',
+      'An iconic luxury hotel and casino on the Las Vegas Strip, known for its Roman-inspired architecture, grand entertainment venues, and lavish decor',
+      '\$200 Million',
+      4,
+    ),
+    Building(
+      'Edge',
+      'assets/edge.jpg',
+      '30 Hudson Yards, New York, NY 10001, USA',
+      'A glass observation deck located at Hudson Yards, offering stunning 360-degree views of Manhattan. It’s one of the highest outdoor observation platforms in the Western Hemisphere',
+      '\$25 Billion',
+      4,
+    ),
+    Building(
+      'Empire State',
+      'assets/empire_state.jpg',
+      '350 5th Ave, New York, NY 10118, USA',
+      'An iconic Art Deco skyscraper in Manhattan, once the tallest building in the world. It’s a symbol of New York City and famous for its observation decks',
+      '\$600 Million',
+      4,
+    ),
+    Building(
+      'Pentagon',
+      'assets/pentagon.jpg',
+      '1400 Defense Pentagon, Washington, DC 20301, USA',
+      'The headquarters of the United States Department of Defense, recognized for its unique five-sided shape. It’s one of the world’s largest office buildings by floor area',
+      '\$1.2 Billion',
+      4,
+    ),
+    Building(
+      'Powerhouse',
+      'assets/powerhouse.jpg',
+      'Brattørkaia 17A, 7010 Trondheim, Norway',
+      'A highly energy-efficient office building designed to produce more energy than it consumes. It utilizes solar panels, smart design, and sustainable materials',
+      '\$55 Million',
+      4,
+    ),
+    Building(
+      'Shard',
+      'assets/shard.jpg',
+      '32 London Bridge St, London SE1 9SG, UK',
+      'A distinctive glass skyscraper that resembles a shard of glass, making it the tallest building in Western Europe. It houses offices, apartments, restaurants, and a viewing gallery',
+      '\$2 Billion',
+      4,
+    ),
+    Building(
+      'Trump Tower',
+      'assets/trump_tower.jpg',
+      '721 5th Ave, New York, NY 10022, USA',
+      'A mixed-use skyscraper in Manhattan, featuring luxury residences, offices, and high-end retail. Known for its distinctive reflective glass facade and opulent interiors',
+      '\$900 Million',
+      4,
     ),
   ];
 
@@ -122,7 +175,7 @@ class _HouseSwipePageState extends State<HouseSwipePage> {
           : SwipeCards(
               matchEngine: _matchEngine,
               itemBuilder: (BuildContext context, int index) {
-                return HouseCard(house: houses[index]);
+                return BuildingCard(building: houses[index]);
               },
               onStackFinished: () {
                 ScaffoldMessenger.of(context).showSnackBar(
